@@ -7,24 +7,24 @@
  * @return string
  */
 
-function basePath($path = '') 
+function basePath($path = '')
 {
     return __DIR__  . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
 
 /**
  * Load a view
- * 
+ *  
  * @param string $name
  * @return void
  */
-function loadView($name)
+function loadView($name, $data = [])
 {
     $viewPath = basePath("views/{$name}.view.php");
     if (file_exists($viewPath)) {
+        extract($data);
         require $viewPath;
-    }
-    else {
+    } else {
         echo "View '{$name}' not found";
     }
 }
@@ -41,11 +41,10 @@ function loadPartial($name)
 {
 
     $partialPath = basePath("views/partials/{$name}.php");
-    
+
     if (file_exists($partialPath)) {
         require $partialPath;
-    }
-    else {
+    } else {
         echo "Partial '{$name}' not found";
     }
 }
@@ -75,4 +74,16 @@ function inspectAndDie($var)
 {
     inspect($var);
     die();
+}
+
+/**
+ * Format a salary
+ * 
+ * @param string $salary
+ * 
+ * @return string formatted salary
+ */
+function formatSalary($salary)
+{
+    return '$' . number_format(floatval($salary), 0);
 }

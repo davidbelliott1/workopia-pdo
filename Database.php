@@ -1,7 +1,7 @@
 <?php
 
-class Database {
-
+class Database
+{
     public $conn;
 
     /**
@@ -11,18 +11,45 @@ class Database {
      * 
      */
 
-    public function __construct($config) {
-        $dsn = "mysql:host={config['host']};port={$config['port']};dbname={$config['dbname']}";
+    public function __construct($config)
+    {
+        $dsn = "mysql:host={$config['host']};
+                port={$config['port']};
+                dbname={$config['dbname']}";
 
         $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
         ];
 
         try {
-            $this->conn = new PDO($dsn, $config['username'], $config['password'], $options);
+            $this->conn = new PDO(
+                $dsn,
+                $config['username'],
+                $config['password'],
+                $options
+            );
         } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
-        }   
+            throw new Exception("Database connection failed: {$e->getMessage()}");
+        }
     }
 
+    /**
+     * Query the database
+     * 
+     * @param string $sql
+     * 
+     * @return PDOStatement
+     * @throws PDOException
+     */
+    public function query($sql)
+    {
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            throw new Exception("Query failed: {$e->getMessage()}, {$e->getCode()}");
+        }
+    }
 }

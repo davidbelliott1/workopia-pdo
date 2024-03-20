@@ -1,17 +1,19 @@
 <?php
 
-class Router {
+class Router
+{
     protected $routes = [];
 
     /**
      * Register a new route
      *
-     * @param [type] $method
-     * @param [type] $uri
-     * @param [type] $controller
+     * @param string $method
+     * @param string $uri
+     * @param string $controller
      * @return void
      */
-    public function registerRoute($method, $uri, $controller) {
+    public function registerRoute($method, $uri, $controller)
+    {
         $this->routes[] = [
             'method' => $method,
             'uri' => $uri,
@@ -27,10 +29,11 @@ class Router {
      * @param string $controller
      * @return void
      */
-    public function get($uri, $controller) {
+    public function get($uri, $controller)
+    {
         $this->registerRoute('GET', $uri, $controller);
     }
-    
+
 
     /** 
      * Add a POST route
@@ -39,10 +42,11 @@ class Router {
      * @param string $controller
      * @return void
      */
-    public function post($uri, $controller) {
+    public function post($uri, $controller)
+    {
         $this->registerRoute('POST', $uri, $controller);
     }
-    
+
 
     /**
      * Add a PUT route
@@ -51,10 +55,11 @@ class Router {
      * @param string $controller
      * @return void
      */
-    public function put($uri, $controller) {
+    public function put($uri, $controller)
+    {
         $this->registerRoute('PUT', $uri, $controller);
     }
-        
+
 
     /**
      * Add a DELETE route
@@ -63,9 +68,10 @@ class Router {
      * @param string $controller
      * @return void
      */
-    public function delete($uri, $controller) {
+    public function delete($uri, $controller)
+    {
         $this->registerRoute('DELETE', $uri, $controller);
-    }   
+    }
 
     /**
      * Load error page
@@ -74,7 +80,8 @@ class Router {
      * 
      * @return void
      */
-    public function loadErrorPage($httpCode = 404) {
+    public function loadErrorPage($httpCode = 404)
+    {
         http_response_code($httpCode);
         loadView('error/' . $httpCode);
     }
@@ -85,9 +92,11 @@ class Router {
      * 
      * @param string $uri
      * @param string $method
+     * @param string $controller
      * @return void
      */
-    public function route($uri, $method) {
+    public function route($uri, $method)
+    {
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === $method) {
                 require basePath($route['controller']);
@@ -96,5 +105,4 @@ class Router {
         }
         $this->loadErrorPage();
     }
-
 }
