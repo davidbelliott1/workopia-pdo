@@ -1,0 +1,16 @@
+{
+    "name": "davidbelliott1/workopia-pdo",
+    "description": "Workopia PDO",
+    "authors": [
+        {
+            "name": "David Elliott",
+            "email": "david.elliott@formstack.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "Framework/",
+            "App\\": "App/"
+        }
+    }
+}
