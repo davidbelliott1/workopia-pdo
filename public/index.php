@@ -3,21 +3,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 require '../helpers.php';
 
-
-// requires without using an autoload function
-// require basePath('Framework/Router.php');
-// require basePath('Framework/Database.php');
-
-// Autoloader with spl_autoload_register
-// spl_autoload_register(function ($class) {
-//     $path =  basePath("Framework/{$class}.php");
-//     if (file_exists($path)) {
-//         require $path;
-//     }
-// });
-
-
-
+use Framework\Router;
 
 // Router Stuff
 // instantiate the Router class
@@ -28,7 +14,6 @@ $routes = require basePath('routes.php');
 
 // get current uri and method
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$method = $_SERVER['REQUEST_METHOD'];
 
 // route the request
-$router->route($uri, $method);
+$router->route($uri);
